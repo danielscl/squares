@@ -18,19 +18,6 @@
 
         function iniciar(){
             websocket.on('mensajeServidor',recibirMensaje);
-
-            $('.square').live('click',function(){
-              $(this).addClass('clicked');
-              $('#color').attr('val',getColor());
-              enviarMensaje();
-            });
-        }
-
-        function enviarMensaje(){
-            var rel = $('.clicked').attr('id');
-            var color = $('#color').attr('val');
-            var obj = jQuery.parseJSON('{"relid":"'+rel+'","colorid":"'+color+'"}');
-            websocket.emit('nuevoDato',obj);
         }
 
         function recibirMensaje(datosServidor){
@@ -40,24 +27,8 @@
                 $('#'+datosServidor.selectedid).addClass('selected');
             }
             else{
-                $('#'+datosServidor.relid).remove();
-                $('.content').append('<div onclick="" id="'+(cont++)+'" class="square '+datosServidor.colorid+'"></div>');
+                $('#'+datosServidor.relid).removeAttr('class').addClass('square '+datosServidor.colorid+' selected');
             }
-            
-        }
-
-        function getColor(){
-            var colors = []
-                colors[1] = 'red';
-                colors[2] = 'green';
-                colors[3] = 'blue';
-                colors[4] = 'yellow';
-                colors[5] = 'gray';
-                colors[6] = 'purple';
-
-            var number = 1 + Math.floor(Math.random() * 6);
-            
-            return colors[number];
         }
 
     </script>
