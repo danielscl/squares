@@ -16,6 +16,7 @@
         var websocket = io.connect('http://10.10.1.29:8080');
         var selected = 1;
         var add = 0;
+        var code = 0;
 
         function iniciar(){
 
@@ -44,15 +45,21 @@
                 enviarMensaje();
             });
 
-
+            //CHANGE
             $('.button').live('click',function(){
                 add=1;
                 enviarMensaje();
             });
+
+            //CONNECT
+            $('.connect').live('click',function(){
+                code = $('.code').val();
+                alert(code);
+            });
         }
 
         function enviarMensaje(){
-            var obj = jQuery.parseJSON('{"selectedid":"'+selected+'","addid":"'+add+'","relid":"'+selected+'","colorid":"'+getColor()+'"}');
+            var obj = jQuery.parseJSON('{"codeid":"'+code+'","selectedid":"'+selected+'","addid":"'+add+'","relid":"'+selected+'","colorid":"'+getColor()+'"}');
             if(add==1)
                 add=0;
             websocket.emit('nuevoDato',obj);
@@ -79,7 +86,8 @@
     </script>
   </head>
   <body>
-      <!--div onclick="" class="button">ERASE</div-->
+      <input class="code" type="text">
+      <div onclick="" class="connect black">CONNECT</div>
 
       <div class="controller">
         <div class="pad">

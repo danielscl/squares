@@ -12,6 +12,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://10.10.1.29:8080/socket.io/socket.io.js"></script>
     <script type="text/javascript">
+        
+        function init(){
+            $('body').attr('id',$.now());
+            $('h1').text('CODE: '+$('body').attr('id'));
+        }
+
         $(document).on('ready',iniciar);
         var websocket = io.connect('http://10.10.1.29:8080');
         var cont = 25;        
@@ -21,7 +27,10 @@
         }
 
         function recibirMensaje(datosServidor){
-            console.log(datosServidor.selectedid);
+            console.log(datosServidor.codeid);
+            if(datosServidor.codeid!=$('body').attr('id'))
+                return;
+
             if(datosServidor.addid==0){
                 $('.selected').removeClass('selected');
                 $('#'+datosServidor.selectedid).addClass('selected');
@@ -33,7 +42,8 @@
 
     </script>
   </head>
-  <body>
+  <body onload="init();">
+      <h1></h1>
       <div class="content">
           <input id="color" type="hidden" val="">
           <div onclick='' id="1" class="square red selected"></div>
